@@ -44,95 +44,115 @@ MAKE="gmake"
 OS="$(echo $OS | tr A-Z a-z)"
 
 case $OS in
+    hppahpux)
+	COMP=/opt/ansic/bin/cc
+        PATH=/opt/ansic/bin:$PATH
+        DEBFLAGS="-g"
+        RELFLAGS="-fast"
+        CFLAGS64="+DD64 +DA2.0W"
+        CFLAGS32="+DD32"
+        CFLAGSALL="+Z -AC99"
+	OS="hppahpux"
+	OS64="${OS}_64"
+        ;;
     itanium2hpux)
         PATH=/opt/aCC.6.28/bin:$PATH
-        ita2_sys_flags="+DD64 +DSitanium2 -fPIC"
-        ita2_sys_flags="+DD32 +DSitanium2 -fPIC"
-
+	COMP=/opt/aCC.6.28/bin/aCC
+        DEBFLAGS="-g"
+        RELFLAGS="-fast"
+        CFLAGS64="+DD64"
+        CFLAGS32="+DD32"
+        CFLAGSALL="+std=c99 +Z +DSitanium2"
+	OS="itanium2hpux"
+	OS64="${OS}_64"
         ;;
     rs6000aix)
         ##############################################################
         # Note: zlib does something strainge with out-of-tree builds
         #  that breaks with IBM's xlc, so we'll build in-tree on AIX.
         ##############################################################
-	BUILD_IN_TREE=true
+        BUILD_IN_TREE=true
         PATH=/opt/IBM/xlC/13.1.3/bin:$PATH
-	COMP=/opt/IBM/xlC/13.1.3/bin/xlc_r
+        COMP=/opt/IBM/xlC/13.1.3/bin/xlc_r
         DEBFLAGS="-g -qfullpath"
         RELFLAGS="-O3 -qstrict=all"
         CFLAGS64="-q64"
         CFLAGS32="-q32"
         CFLAGSALL="-qpic=small -qthreaded"
-	OS="rs6000aix"
-	OS64="${OS}_64"
-	AR32="ar -X 32"
-	AR64="ar -X 64"
+        OS="rs6000aix"
+        OS64="${OS}_64"
+        AR32="ar -X 32"
+        AR64="ar -X 64"
     ;;
     i80386linux)
         # configuration for rhel5
         PATH=/opt/gcc-4.1.2/bin:$PATH
-	COMP=/opt/gcc-4.1.2/bin/gcc
+        COMP=/opt/gcc-4.1.2/bin/gcc
         DEBFLAGS="-g"
         RELFLAGS="-O3 -fstack-protector-all -Wstack-protector -D_FORTIFY_SOURCE=2"
         CFLAGS64="-m64"
         CFLAGS32="-m32 -mtune=i686 -march=pentium4"
         CFLAGSALL="-fPIC"
-	OS="i80386linux"
-	OS64="${OS}_64"
+        OS="i80386linux"
+        OS64="${OS}_64"
     ;;
     sparcsolaris)
         # configuration for sol - solaris10
         PATH=/opt/developerstudio12.5/bin:$PATH
-	COMP=/opt/developerstudio12.5/bin/cc
+        COMP=/opt/developerstudio12.5/bin/cc
         DEBFLAGS="-g"
         RELFLAGS="-fast"
         CFLAGS64="-m64"
         CFLAGS32="-m32"
         CFLAGSALL="-xcode=pic32 -std=c99 -xarch=sparcvis"
-	OS="sparcsolaris"
-	OS64="${OS}_64"
+        OS="sparcsolaris"
+        OS64="${OS}_64"
     ;;
     intelsolaris)
         # configuration for sol - solaris10
-	MAKE=make
-	COMP=/usr/bin/cc
+        MAKE=make
+        COMP=/usr/bin/cc
         DEBFLAGS="-g"
         RELFLAGS="-fast"
         CFLAGS64="-m64"
         CFLAGS32="-m32"
         CFLAGSALL="-KPIC -xc99=all -xpentium"
-	OS="intelsolaris"
-	OS64="${OS}_64"
+        OS="intelsolaris"
+        OS64="${OS}_64"
     ;;
 esac
 
 for STAGE in Debug Release
 do
-    if test $STAGE == 'Debug'; then
+    if test "X$STAGE" == "XDebug"; then
         OPTFLAG="$DEBFLAGS"
     else
         OPTFLAG="$RELFLAGS"
     fi
-    mkdir -p ../zlib-bin/$STAGE/$OS
-    PREFIXDIR=$(cd ../zlib-bin/$STAGE/$OS && pwd)
-    mkdir -p ${STAGE}/$OS
+    mkdir -p ./$STAGE/$OS
+    PREFIXDIR=$(cd ./$STAGE/$OS && pwd)
     if test "X$BUILD_IN_TREE" == "Xtrue"; then
         ( cd ./zlib/ && \
-             AR=${AR32} CC=$COMP CFLAGS="$CFLAGS32 $OPTFLAG $CFLAGSALL" ./configure --prefix=${PREFIXDIR} --static &&  $MAKE && $MAKE install && $MAKE distclean)
+            AR=${AR32} CC=$COMP CFLAGS="$CFLAGS32 $OPTFLAG $CFLAGSALL" ./configure --prefix=${PREFIXDIR} --static && \
+            $MAKE && $MAKE install && $MAKE distclean)
     else
-        ( cd ${STAGE}/$OS && \
-            CC=$COMP CFLAGS="$CFLAGS32 $OPTFLAG $CFLAGSALL" ../../zlib/configure --prefix=${PREFIXDIR} --static &&  $MAKE &&  $MAKE install )
-# && $MAKE distclean )
+        BUILDDIR="build/${STAGE}/$OS"
+        mkdir -p $BUILDDIR
+        ( cd ${BUILDDIR} && \
+            CC=$COMP CFLAGS="$CFLAGS32 $OPTFLAG $CFLAGSALL" ../../../zlib/configure --prefix=${PREFIXDIR} --static && \
+            $MAKE && $MAKE install && $MAKE distclean )
     fi
-    mkdir -p ../zlib-bin/$STAGE/$OS64
-    PREFIXDIR=$(cd ../zlib-bin/$STAGE/$OS64 && pwd)
-    mkdir -p ${STAGE}/$OS64
+    mkdir -p ./$STAGE/$OS64
+    PREFIXDIR=$(cd ./$STAGE/$OS64 && pwd)
     if test "X$BUILD_IN_TREE" == "Xtrue"; then
         ( cd ./zlib/ && \
-            AR=${AR64} CC=$COMP CFLAGS="$CFLAGS64 $OPTFLAG $CFLAGSALL" ./configure --prefix=${PREFIXDIR} --64 --static &&  $MAKE && $MAKE install && $MAKE distclean)
+            AR=${AR64} CC=$COMP CFLAGS="$CFLAGS64 $OPTFLAG $CFLAGSALL" ./configure --prefix=${PREFIXDIR} --64 --static && \
+	    $MAKE && $MAKE install && $MAKE distclean)
     else
-       ( cd ${STAGE}/$OS64 && \
-            CC=$COMP CFLAGS="$CFLAGS64 $OPTFLAG $CFLAGSALL" ../../zlib/configure --prefix=${PREFIXDIR} --64 --static && $MAKE && $MAKE install )
- # && $MAKE distclean )
+        BUILDDIR="build/${STAGE}/$OS64"
+        mkdir -p $BUILDDIR
+        ( cd ${BUILDDIR} && 
+            CC=$COMP CFLAGS="$CFLAGS64 $OPTFLAG $CFLAGSALL" ../../../zlib/configure --prefix=${PREFIXDIR} --64 --static && \
+	    $MAKE && $MAKE install && $MAKE distclean )
    fi
 done
