@@ -17,7 +17,7 @@ fi
 PREFIXDIR=`cd $PREFIXDIR && pwd`
 
 if test "X$UNAME" == "XMSYS_NT-10.0"; then
-    # under windows, use pdfl15_all\build-zilb\zlib\contrib\vstudio\vc12\zlibvc.sln
+    # under windows, use zilb-dl\zlib\contrib\vstudio\vc12\zlibvc.sln
     # build project zlibstat with configuraitons "Debug|x64" "ReleaseWithoutAsm|x64"
     #   "Debug|Win32" "ReleaseWithoutAsm|Win32"
     ./build.bat
