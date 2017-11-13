@@ -2,9 +2,10 @@
 @REM build project zlibstat with configuraitons "Debug|x64" "ReleaseWithoutAsm|x64"
 @REM   "Debug|Win32" "ReleaseWithoutAsm|Win32"
 
-@echo "Cloning Git repo for zlib"
-@REM TODO - test for the existence of the zlib directory and skip all this if present
-git clone git@github.com:madler/zlib.git
+IF EXIST zlib GOTO CONT1
+	@echo "Cloning Git repo for zlib"
+	git clone git@github.com:madler/zlib.git
+:CONT1
 
 cd zlib
 
@@ -14,20 +15,26 @@ cd ..
 
 CALL "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64
 
-devenv zlib\contrib\vstudio\vc12\zlibvc.sln /rebuild "Debug|x64" /project zlibstat
+REM Save original zlibstat.vcxproj to temporarily created directory
+xcopy zlib\contrib\vstudio\vc12\zlibstat.vcxproj zlib\contrib\vstudio\vc12\_data_logics_\ /Y
 
-copy zlib\contrib\vstudio\vc12\x64\ZlibStatDebug\zlibstat.lib  .\Debug\x64\
+python replace_def.py zlib\contrib\vstudio\vc12\zlibstat.vcxproj ZLIB_WINAPI; ""
 
-devenv zlib\contrib\vstudio\vc12\zlibvc.sln /rebuild "ReleaseWithoutAsm|x64" /project zlibstat
+MSBuild zlib\contrib\vstudio\vc12\zlibstat.vcxproj /t:Rebuild /p:Configuration=Debug;Platform=x64  
+xcopy zlib\contrib\vstudio\vc12\x64\ZlibStatDebug\zlibstat.lib  .\Debug\x64\lib\ /Y
 
-copy zlib\contrib\vstudio\vc12\x64\ZlibStatReleaseWithoutAsm\zlibstat.lib .\Release\x64\
+
+MSBuild zlib\contrib\vstudio\vc12\zlibstat.vcxproj /t:Rebuild /p:Configuration=ReleaseWithoutAsm;Platform=x64 
+xcopy zlib\contrib\vstudio\vc12\x64\ZlibStatReleaseWithoutAsm\zlibstat.lib .\Release\x64\lib\ /Y
 
 CALL "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" x86
 
-devenv zlib\contrib\vstudio\vc12\zlibvc.sln /rebuild "Debug|Win32" /project zlibstat
+MSBuild zlib\contrib\vstudio\vc12\zlibstat.vcxproj /t:Rebuild /p:Configuration=Debug;Platform=Win32  
+xcopy zlib\contrib\vstudio\vc12\x86\ZlibStatDebug\zlibstat.lib  .\Debug\Win32\lib\ /Y
 
-copy zlib\contrib\vstudio\vc12\x86\ZlibStatDebug\zlibstat.lib  .\Debug\Win32\
+MSBuild zlib\contrib\vstudio\vc12\zlibstat.vcxproj /t:Rebuild /p:Configuration=ReleaseWithoutAsm;Platform=Win32 
+xcopy zlib\contrib\vstudio\vc12\x86\ZlibStatReleaseWithoutAsm\zlibstat.lib  .\Release\Win32\lib /Y
 
-devenv zlib\contrib\vstudio\vc12\zlibvc.sln /rebuild "ReleaseWithoutAsm|Win32" /project zlibstat
+xcopy zlib\contrib\vstudio\vc12\_data_logics_\zlibstat.vcxproj zlib\contrib\vstudio\vc12\ /Y
 
-copy zlib\contrib\vstudio\vc12\x86\ZlibStatReleaseWithoutAsm\zlibstat.lib  .\Release\Win32\
+rd /S /Q zlib\contrib\vstudio\vc12\_data_logics_
