@@ -43,7 +43,7 @@ MSBuild zlib\contrib\vstudio\vc12\zlibstat.vcxproj /t:Rebuild /p:Configuration=D
 xcopy zlib\contrib\vstudio\vc12\x86\ZlibStatDebug\zlibstat.lib  .\Debug\Win32\lib\ /Y
 
 MSBuild zlib\contrib\vstudio\vc12\zlibstat.vcxproj /t:Rebuild /p:Configuration=ReleaseWithoutAsm;Platform=Win32 
-xcopy zlib\contrib\vstudio\vc12\x86\ZlibStatReleaseWithoutAsm\zlibstat.lib  .\Release\Win32\lib /Y
+xcopy zlib\contrib\vstudio\vc12\x86\ZlibStatReleaseWithoutAsm\zlibstat.lib  .\Release\Win32\lib\ /Y
 
 REM Restore the original content of zlibstat.vcxproj and remove the temporary folder
 xcopy zlib\contrib\vstudio\vc12\_data_logics_\zlibstat.vcxproj zlib\contrib\vstudio\vc12\ /Y
