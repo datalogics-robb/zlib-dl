@@ -10,18 +10,13 @@ IF EXIST zlib GOTO CONT1
 cd zlib
 
 git checkout v1.2.11
-
-cd ..
-
 REM ===========================================================================
 REM           Update zlibstat.vxproj project file for DL needs
 REM ===========================================================================
-REM Save original zlibstat.vcxproj to a temporary folder
-xcopy zlib\contrib\vstudio\vc12\zlibstat.vcxproj zlib\contrib\vstudio\vc12\_data_logics_\ /Y
+REM apply a patch that will correct build settings in the windows VS project
+git apply --verbose ../modify-zlib-build.patch
 
-REM Run Python script, which replaces ZLIB_WINAPI with nothing, MultiThreaded with MiltiThreadedDLL and 
-REM MultiThreadedDebug with MiltiThreadedDebugDLL
-python replace_def.py zlib\contrib\vstudio\vc12\zlibstat.vcxproj ["ZLIB_WINAPI;",">MultiThreaded<",">MultiThreadedDebug<"]  ["",">MultiThreadedDLL<",">MultiThreadedDebugDLL<"]
+cd ..
 
 REM ===========================================================================
 REM Build 64 bit version of the library
@@ -30,7 +25,6 @@ CALL "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64
 
 MSBuild zlib\contrib\vstudio\vc12\zlibstat.vcxproj /t:Rebuild /p:Configuration=Debug;Platform=x64  
 xcopy zlib\contrib\vstudio\vc12\x64\ZlibStatDebug\zlibstat.lib  .\Debug\x64\lib\ /Y
-
 
 MSBuild zlib\contrib\vstudio\vc12\zlibstat.vcxproj /t:Rebuild /p:Configuration=ReleaseWithoutAsm;Platform=x64 
 xcopy zlib\contrib\vstudio\vc12\x64\ZlibStatReleaseWithoutAsm\zlibstat.lib .\Release\x64\lib\ /Y
@@ -46,6 +40,3 @@ xcopy zlib\contrib\vstudio\vc12\x86\ZlibStatDebug\zlibstat.lib  .\Debug\Win32\li
 MSBuild zlib\contrib\vstudio\vc12\zlibstat.vcxproj /t:Rebuild /p:Configuration=ReleaseWithoutAsm;Platform=Win32 
 xcopy zlib\contrib\vstudio\vc12\x86\ZlibStatReleaseWithoutAsm\zlibstat.lib  .\Release\Win32\lib\ /Y
 
-REM Restore the original content of zlibstat.vcxproj and remove the temporary folder
-xcopy zlib\contrib\vstudio\vc12\_data_logics_\zlibstat.vcxproj zlib\contrib\vstudio\vc12\ /Y
-rd /S /Q zlib\contrib\vstudio\vc12\_data_logics_
