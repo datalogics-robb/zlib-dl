@@ -1,5 +1,5 @@
 diff --git a/contrib/vstudio/vc12/zlibstat.vcxproj b/contrib/vstudio/vc12/zlibstat.vcxproj
-index 3fdee7c..c60ae3e 100644
+index 3fdee7c..34138a1 100644
 --- a/contrib/vstudio/vc12/zlibstat.vcxproj
 +++ b/contrib/vstudio/vc12/zlibstat.vcxproj
 @@ -46,11 +46,13 @@
@@ -36,21 +36,26 @@ index 3fdee7c..c60ae3e 100644
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
-@@ -172,9 +177,8 @@
+@@ -171,10 +176,9 @@
+     <ClCompile>
        <Optimization>Disabled</Optimization>
        <AdditionalIncludeDirectories>..\..\..;..\..\masmx86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>WIN32;ZLIB_WINAPI;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <PreprocessorDefinitions>WIN32;ZLIB_WINAPI;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 -      <ExceptionHandling>
 -      </ExceptionHandling>
 -      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
++      <PreprocessorDefinitions>WIN32;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 +      <ExceptionHandling>Sync</ExceptionHandling>
 +      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
        <BufferSecurityCheck>false</BufferSecurityCheck>
        <PrecompiledHeaderOutputFile>$(IntDir)zlibstat.pch</PrecompiledHeaderOutputFile>
        <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
-@@ -199,8 +203,7 @@
+@@ -197,10 +201,9 @@
+     <ClCompile>
+       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
        <AdditionalIncludeDirectories>..\..\..;..\..\masmx86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>WIN32;ZLIB_WINAPI;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;ASMV;ASMINF;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <PreprocessorDefinitions>WIN32;ZLIB_WINAPI;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;ASMV;ASMINF;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>WIN32;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;ASMV;ASMINF;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <StringPooling>true</StringPooling>
 -      <ExceptionHandling>
 -      </ExceptionHandling>
@@ -58,9 +63,12 @@ index 3fdee7c..c60ae3e 100644
        <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
        <BufferSecurityCheck>false</BufferSecurityCheck>
        <FunctionLevelLinking>true</FunctionLevelLinking>
-@@ -227,8 +230,7 @@
+@@ -225,10 +228,9 @@
+     <ClCompile>
+       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
        <AdditionalIncludeDirectories>..\..\..;..\..\masmx86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>WIN32;ZLIB_WINAPI;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <PreprocessorDefinitions>WIN32;ZLIB_WINAPI;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>WIN32;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <StringPooling>true</StringPooling>
 -      <ExceptionHandling>
 -      </ExceptionHandling>
@@ -68,13 +76,15 @@ index 3fdee7c..c60ae3e 100644
        <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
        <BufferSecurityCheck>false</BufferSecurityCheck>
        <FunctionLevelLinking>true</FunctionLevelLinking>
-@@ -256,9 +258,8 @@
+@@ -255,10 +257,9 @@
+     <ClCompile>
        <Optimization>Disabled</Optimization>
        <AdditionalIncludeDirectories>..\..\..;..\..\masmx86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>ZLIB_WINAPI;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <PreprocessorDefinitions>ZLIB_WINAPI;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 -      <ExceptionHandling>
 -      </ExceptionHandling>
 -      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
++      <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 +      <ExceptionHandling>Sync</ExceptionHandling>
 +      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
        <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -89,9 +99,12 @@ index 3fdee7c..c60ae3e 100644
        <BufferSecurityCheck>false</BufferSecurityCheck>
        <PrecompiledHeaderOutputFile>$(IntDir)zlibstat.pch</PrecompiledHeaderOutputFile>
        <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
-@@ -315,9 +316,8 @@
+@@ -313,11 +314,10 @@
+     <ClCompile>
+       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
        <AdditionalIncludeDirectories>..\..\..;..\..\masmx86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>ZLIB_WINAPI;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;ASMV;ASMINF;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <PreprocessorDefinitions>ZLIB_WINAPI;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;ASMV;ASMINF;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;ASMV;ASMINF;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <StringPooling>true</StringPooling>
 -      <ExceptionHandling>
 -      </ExceptionHandling>
@@ -110,9 +123,12 @@ index 3fdee7c..c60ae3e 100644
        <BufferSecurityCheck>false</BufferSecurityCheck>
        <FunctionLevelLinking>true</FunctionLevelLinking>
        <PrecompiledHeaderOutputFile>$(IntDir)zlibstat.pch</PrecompiledHeaderOutputFile>
-@@ -376,9 +376,8 @@
+@@ -374,11 +374,10 @@
+     <ClCompile>
+       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
        <AdditionalIncludeDirectories>..\..\..;..\..\masmx86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>ZLIB_WINAPI;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <PreprocessorDefinitions>ZLIB_WINAPI;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <StringPooling>true</StringPooling>
 -      <ExceptionHandling>
 -      </ExceptionHandling>
