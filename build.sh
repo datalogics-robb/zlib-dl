@@ -97,14 +97,16 @@ case $OS in
         OS64="${OS}_64"
     ;;
     sparcsolaris)
-        # configuration for sol - solaris10
-        PATH=/opt/developerstudio12.5/bin:$PATH
-        COMP=/opt/developerstudio12.5/bin/cc
+        # configuration for 64-bit tibet - solaris10 -- for 32-bit, solaris9
+        PATH=/opt/gcc-4.1.2/bin:/opt/developerstudio12.5/bin:$PATH
+        COMP64=/opt/developerstudio12.5/bin/cc
+        CFLAGS64="-m64 -xcode=pic32 -std=c99 -xarch=sparcvis"
+	COMP32=/opt/gcc-4.1.2/bin/gcc
+        CFLAGS32="-m32 -fPIC -fexceptions"
         DEBFLAGS="-g"
-        RELFLAGS="-fast"
-        CFLAGS64="-m64"
-        CFLAGS32="-m32"
-        CFLAGSALL="-xcode=pic32 -std=c99 -xarch=sparcvis"
+        RELFLAGS32="-O3"
+        RELFLAGS64="-fast"
+        CFLAGSALL=""
         OS="sparcsolaris"
         OS64="${OS}_64"
     ;;
@@ -133,26 +135,26 @@ do
     PREFIXDIR=$(cd ./$STAGE/$OS && pwd)
     if test "X$BUILD_IN_TREE" == "Xtrue"; then
         ( cd ./zlib/ && \
-            AR=${AR32} CC=$COMP CFLAGS="$CFLAGS32 $OPTFLAG $CFLAGSALL" ./configure --prefix=${PREFIXDIR} --static && \
+            AR=${AR32} CC=${COMP-${COMP32}} CFLAGS="$CFLAGS32 $OPTFLAG $CFLAGSALL" ./configure --prefix=${PREFIXDIR} --static && \
             $MAKE && $MAKE install && $MAKE distclean)
     else
         BUILDDIR="build/${STAGE}/$OS"
         mkdir -p $BUILDDIR
         ( cd ${BUILDDIR} && \
-            CC=$COMP CFLAGS="$CFLAGS32 $OPTFLAG $CFLAGSALL" ../../../zlib/configure --prefix=${PREFIXDIR} --static && \
+            CC=${COMP-${COMP32}} CFLAGS="$CFLAGS32 $OPTFLAG $CFLAGSALL" ../../../zlib/configure --prefix=${PREFIXDIR} --static && \
             $MAKE && $MAKE install && $MAKE distclean )
     fi
     mkdir -p ./$STAGE/$OS64
     PREFIXDIR=$(cd ./$STAGE/$OS64 && pwd)
     if test "X$BUILD_IN_TREE" == "Xtrue"; then
         ( cd ./zlib/ && \
-            AR=${AR64} CC=$COMP CFLAGS="$CFLAGS64 $OPTFLAG $CFLAGSALL" ./configure --prefix=${PREFIXDIR} --64 --static && \
+            AR=${AR64} CC=${COMP-${COMP64}} CFLAGS="$CFLAGS64 $OPTFLAG $CFLAGSALL" ./configure --prefix=${PREFIXDIR} --64 --static && \
 	    $MAKE && $MAKE install && $MAKE distclean)
     else
         BUILDDIR="build/${STAGE}/$OS64"
         mkdir -p $BUILDDIR
         ( cd ${BUILDDIR} && 
-            CC=$COMP CFLAGS="$CFLAGS64 $OPTFLAG $CFLAGSALL" ../../../zlib/configure --prefix=${PREFIXDIR} --64 --static && \
+            CC=${COMP-${COMP64}} CFLAGS="$CFLAGS64 $OPTFLAG $CFLAGSALL" ../../../zlib/configure --prefix=${PREFIXDIR} --64 --static && \
 	    $MAKE && $MAKE install && $MAKE distclean )
    fi
 done
