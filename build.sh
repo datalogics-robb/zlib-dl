@@ -127,9 +127,9 @@ esac
 for STAGE in Debug Release
 do
     if test "X$STAGE" == "XDebug"; then
-        OPTFLAG="$DEBFLAGS"
+        OPTFLAG=${DEBFLAGS-${DEBFLAGS32}}
     else
-        OPTFLAG="$RELFLAGS"
+        OPTFLAG=${RELFLAGS-${RELFLAGS32}}
     fi
     mkdir -p ./$STAGE/$OS
     PREFIXDIR=$(cd ./$STAGE/$OS && pwd)
@@ -143,6 +143,12 @@ do
         ( cd ${BUILDDIR} && \
             CC=${COMP-${COMP32}} CFLAGS="$CFLAGS32 $OPTFLAG $CFLAGSALL" ../../../zlib/configure --prefix=${PREFIXDIR} --static && \
             $MAKE && $MAKE install && $MAKE distclean )
+    fi
+
+    if test "X$STAGE" == "XDebug"; then
+        OPTFLAG=${DEBFLAGS-${DEBFLAGS64}}
+    else
+        OPTFLAG=${RELFLAGS-${RELFLAGS64}}
     fi
     mkdir -p ./$STAGE/$OS64
     PREFIXDIR=$(cd ./$STAGE/$OS64 && pwd)
