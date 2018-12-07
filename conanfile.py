@@ -65,6 +65,16 @@ class ZlibConan(ConanFile):
                         new_str = '-install_name $SHAREDLIBM'
                         tools.replace_in_file("../configure", old_str, new_str)
 
+                        # DL flags
+                        env_build.flags.extend([
+                            '-fpascal-strings',
+                            '-fvisibility=hidden',
+                            '-fexceptions'
+                        ])
+
+                        if self.settings.os.version:
+                            env_build.flags.extend(['-mmacosx-version-min={}'.format(self.settings.os.version)])
+
                     # https://github.com/madler/zlib/issues/268
                     tools.replace_in_file('../gzguts.h',
                                           '#if defined(_WIN32) || defined(__CYGWIN__)',
@@ -84,6 +94,7 @@ class ZlibConan(ConanFile):
 
                     env_build_vars = env_build.vars
                     if tools.is_apple_os(self.settings.os):
+                        env_build_vars['CC'] = 'clang'
                         # force macOS ranlib because ranlib from binutils produced malformed ar archives
                         env_build_vars['RANLIB'] = tools.XCRun(self.settings).ranlib
 
