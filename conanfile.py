@@ -3,6 +3,7 @@
 import os
 import stat
 from conans import ConanFile, tools, CMake, AutoToolsBuildEnvironment
+from conans.model.version import Version
 
 
 class ZlibConan(ConanFile):
@@ -69,7 +70,9 @@ class ZlibConan(ConanFile):
                         env_build.flags.extend([
                             '-fpascal-strings',
                             '-fvisibility=hidden',
-                            '-fexceptions'
+                            '-fexceptions',
+                            '-arch i386',
+                            '-arch x86_64'
                         ])
 
                         if self.settings.os.version:
@@ -221,3 +224,10 @@ class ZlibConan(ConanFile):
                 self.cpp_info.libs.append('z')  # MSYS/Cygwin builds
         else:
             self.cpp_info.libs.append('z')
+
+    def package_id(self):
+        if self.settings.os == 'Macos':
+            os_version = Version(str(self.settings.os.version or "10.7"))
+            if os_version >= "10.7":
+                self.info.settings.os.version = "macOS 10.7 and up"
+            self.info.settings.arch = 'Universal'
