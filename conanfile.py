@@ -6,9 +6,10 @@ from conans import ConanFile, tools, CMake, AutoToolsBuildEnvironment
 
 
 class ZlibConan(ConanFile):
-    name = "zlib"
+    name = "zlib-dl"
+    library_name = 'zlib'
     version = "1.2.11"
-    url = "http://github.com/conan-community/conan-zlib"
+    url = "https://github.com/datalogics/zlib-dl"
     homepage = "https://zlib.net"
     author = "Conan Community"
     license = "Zlib"
@@ -30,8 +31,8 @@ class ZlibConan(ConanFile):
         del self.settings.compiler.libcxx
 
     def source(self):
-        tools.get("{}/{}-{}.tar.gz".format(self.homepage, self.name, self.version))
-        os.rename("{}-{}".format(self.name, self.version), self._source_subfolder)
+        tools.get("{}/{}-{}.tar.gz".format(self.homepage, self.library_name, self.version))
+        os.rename("{}-{}".format(self.library_name, self.version), self._source_subfolder)
         if not tools.os_info.is_windows:
             configure_file = os.path.join(self._source_subfolder, "configure")
             st = os.stat(configure_file)
