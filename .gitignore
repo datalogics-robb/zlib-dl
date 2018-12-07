@@ -1,3 +1,9 @@
 zlib/
 *~
  
+build/
+*.pyc
+activate*
+deactivate*
+conanbuild*
+test_package/build/
