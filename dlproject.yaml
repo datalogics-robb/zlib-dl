@@ -46,6 +46,11 @@ config:
             gcc_versions:
                 # quirk: must be string
                 - "7"
+            shared:
+                # Permitted states for the shared option.
+                # This is how to build it only static
+                # - True
+                - False
 
     # Configs based on platform information
     #
