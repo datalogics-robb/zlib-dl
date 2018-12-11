@@ -78,6 +78,19 @@ class ZlibConan(ConanFile):
                         if self.settings.os.version:
                             env_build.flags.extend(['-mmacosx-version-min={}'.format(self.settings.os.version)])
 
+                    if self.settings.os == 'Linux':
+                        if self.settings.build_type == 'Release':
+                            env_build.flags.extend([
+                                '-fstack-protector-all',
+                                '-Wstack-protector'
+                            ])
+                            env_build.defines.append('_FORTIFY_SOURCE=2')
+                        if self.settings.arch == 'x86':
+                            env_build.flags.extend([
+                                '-mtune=i686',
+                                '-march=pentium4'
+                            ])
+
                     # https://github.com/madler/zlib/issues/268
                     tools.replace_in_file('../gzguts.h',
                                           '#if defined(_WIN32) || defined(__CYGWIN__)',
