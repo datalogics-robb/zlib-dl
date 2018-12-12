@@ -72,7 +72,7 @@ config:
     #     Lists are appended
 
     macos:
-        profile: apple-clang-9.1
+        profile: apple-clang-9.1-macos-10.7
         packager:
             archs:
                 # It's really a universal architecture, but the packager needs an arch
