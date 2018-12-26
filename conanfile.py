@@ -68,10 +68,13 @@ class ZlibConan(ConanFile):
                         tools.replace_in_file("../configure", old_str, new_str)
 
                         # DL flags
+                        xcrun = tools.XCRun(self.settings)
                         env_build.flags.extend([
                             '-fpascal-strings',
                             '-fvisibility=hidden',
                             '-fexceptions',
+                            '-isysroot',
+                            xcrun.sdk_path,
                             '-arch i386',
                             '-arch x86_64'
                         ])
