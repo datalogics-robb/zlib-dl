@@ -28,38 +28,10 @@ cd %%S_vs14_32
  cmake --build . --config %%S --target install
 
 cd ..
-
-mkdir %%S_vs14_64
-cd %%S_vs14_64
- cmake -G "Visual Studio 14 2015 Win64" -DCMAKE_C_FLAGS_RELEASE="/MT /Zi /O2" -DCMAKE_C_FLAGS_DEBUG="/MTd /Zi /Ob0 /Od /RTC1" -DCMAKE_C_FLAGS="/Zi" -DCMAKE_INSTALL_PREFIX="%REPODIR%\%%S\x64_v140" ../zlib
- cmake --build . --config %%S --target install
-
-cd ..
-
-mkdir %%S_vs14_32
-cd %%S_vs14_32
- cmake -G "Visual Studio 14 2015" -DCMAKE_C_FLAGS_RELEASE="/MT /Zi /O2" -DCMAKE_C_FLAGS_DEBUG="/MTd /Zi /Ob0 /Od /RTC1" -DCMAKE_C_FLAGS="/Zi" -DCMAKE_INSTALL_PREFIX="%REPODIR%\%%S\Win32_v140" ../zlib
- cmake --build . --config %%S --target install
-
-cd ..
 )
 
 
 for %%S in (Release,Debug) DO (
-mkdir %%S_vs15_64
-cd %%S_vs15_64
- cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_C_FLAGS_RELEASE="/MT /Zi /O2" -DCMAKE_C_FLAGS_DEBUG="/MTd /Zi /Ob0 /Od /RTC1" -DCMAKE_C_FLAGS="/Zi" -DCMAKE_INSTALL_PREFIX="%REPODIR%\%%S\x64_v141" ../zlib
- cmake --build . --config %%S --target install
-
-cd ..
-
-mkdir %%S_vs15_32
-cd %%S_vs15_32
- cmake -G "Visual Studio 15 2017" -DCMAKE_C_FLAGS_RELEASE="/MT /Zi /O2" -DCMAKE_C_FLAGS_DEBUG="/MTd /Zi /Ob0 /Od /RTC1" -DCMAKE_C_FLAGS="/Zi" -DCMAKE_INSTALL_PREFIX="%REPODIR%\%%S\Win32_v141" ../zlib
- cmake --build . --config %%S --target install
-
-cd ..
-
 mkdir %%S_vs15_64
 cd %%S_vs15_64
  cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_C_FLAGS_RELEASE="/MT /Zi /O2" -DCMAKE_C_FLAGS_DEBUG="/MTd /Zi /Ob0 /Od /RTC1" -DCMAKE_C_FLAGS="/Zi" -DCMAKE_INSTALL_PREFIX="%REPODIR%\%%S\x64_v141" ../zlib
