@@ -1,0 +1,116 @@
+# Config file for the project. Used by the Invoke tasks, primarily.
+config:
+    # Basic configuration variables
+    global:
+        # Base configurations, may be overridden by platform
+
+        # Conan configuration. `conan config install` installs configuration file from this URL.
+        # See: https://docs.conan.io/en/latest/reference/commands/consumer/config.html#conan-config-install
+        # This is usually a pointer to a Git repo, from which it clones the default branch
+        config_url: git@octocat.dlogics.com:datalogics/conan-config.git
+
+        # Conan profile that's used to configure the compiler
+        # default is the profile Conan makes in the user's home directory
+        profile: default
+
+        # Multiple build configurations in the IDE
+        multi: false
+
+        # Regex that indicates a release branch
+        # In this project, all branches are eligible for release
+        stable_branch_pattern: .*
+
+        # Which dependencies are built
+        build:
+            - missing
+
+        # If these patterns match a dependency package reference, that package is forced to be built.
+        force_build_patterns: []
+
+        # CMake project generator
+        # Set this based on the build system the project uses
+        # (on Mac, this may be overridden to Xcode if bootstrap-xcode is run)
+        cmake_generator: Unix Makefiles
+
+        # options for the ConanMultiPackager
+        # These state which compilers and architectures are built when doing conan.package
+        packager:
+            apple_clang_versions:
+                # quirk: must be string
+                - "9.1"
+            visual_versions:
+                # Visual Studio
+                # quirk: must be integer
+                - 14
+                - 15
+            gcc_versions:
+                # quirk: must be string
+                - "7"
+            shared:
+                # Permitted states for the shared option.
+                # This is how to build it only static
+                # - True
+                - False
+
+    # Configs based on platform information
+    #
+    # Keys can be (and are merged in this order)
+    #
+    # system
+    # system-machine
+    # system-version
+    # system-version-machine
+    #
+    # Where:
+    #   system is macos, windows, or the name of the linux distribution (redhat includes centos)
+    #   version is the major version number (major.minor on macos)
+    #   machine is the processor architecture, i.e. x86_64
+    #
+    # items from global and modify them here.
+    # When merging:
+    #     Dictionary keys override the base
+    #     Lists are appended
+
+    macos:
+        profile: apple-clang-9.1-macos-10.7
+        packager:
+            archs:
+                # It's really a universal architecture, but the packager needs an arch
+                - x86_64
+
+    redhat:
+        # Use the RedHat Devtoolset 7 on Linux
+        profile: devtoolset-7
+
+        # Force building certain references when the binaries may not be
+        # reliable upstream.
+        # Note the ability to use the username/channel;
+        # when these are uploaded to datalogics/stable, they don't need to
+        # be rebuilt.
+        force_build_patterns:
+            - boost_*/1.66.0@bincrafters/stable
+            - boost_build/*
+
+        # boost_build has to be built because of glibc incompatibilities
+        build:
+            - boost_build
+
+        packager:
+            archs:
+                - x86_64
+                - x86
+
+    windows:
+        profile: visual-studio-14
+        cmake_generator: Visual Studio 14 2015 Win64
+        multi: true
+
+        packager:
+            archs:
+                - x86_64
+                - x86
+
+    byhost:
+        # Configs based on hostname.
+        # These are applied last. Consider this for only the most extreme cases
+        kamcentos6:
