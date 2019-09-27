@@ -6,7 +6,6 @@ from conans import ConanFile, CMake
 
 class TestZlibConan(ConanFile):
     settings = "os", "compiler", "arch", "build_type"
-    build_requires = "cmake_installer/3.12.0@conan/stable"
     generators = "cmake"
 
     def build(self):
