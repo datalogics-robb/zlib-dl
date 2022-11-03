@@ -4,7 +4,7 @@ if test -d zlib; then
 else
     echo "Cloning Git repo for zlib"
     git clone git@github.com:madler/zlib.git
-    ( cd zlib && git checkout v1.2.11 )
+    ( cd zlib && git checkout v1.2.13 )
 fi
 UNAME=`uname`
 PREFIXDIR=${PREFIXDIR-"$(dirname ${0})/./"}

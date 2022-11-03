@@ -9,7 +9,7 @@ from conans.model.version import Version
 class ZlibConan(ConanFile):
     name = "zlib-dl"
     library_name = 'zlib'
-    version = "1.2.11"
+    version = "1.2.13"
     url = "https://github.com/datalogics/zlib-dl"
     homepage = "https://zlib.net"
     author = "Conan Community"

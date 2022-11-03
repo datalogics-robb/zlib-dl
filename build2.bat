@@ -5,7 +5,7 @@ IF EXIST zlib GOTO CONT1
 	@echo "Cloning Git repo for zlib"
 	git clone git@github.com:madler/zlib.git zlib
 	cd zlib
-	git checkout v1.2.11
+	git checkout v1.2.13
 	cd ..
 :CONT1
 
