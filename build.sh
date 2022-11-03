@@ -113,12 +113,12 @@ case $OS in
     intelsolaris)
         # configuration for sol - solaris10
         MAKE=make
-        COMP=/usr/bin/cc
+        COMP=/usr/bin/gcc
         DEBFLAGS="-g"
-        RELFLAGS="-fast"
+        RELFLAGS="-O3"
         CFLAGS64="-m64"
         CFLAGS32="-m32"
-        CFLAGSALL="-KPIC -xc99=all -xpentium"
+        CFLAGSALL="-fPIC -std=c99"
         OS="intelsolaris"
         OS64="${OS}_64"
     ;;
