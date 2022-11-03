@@ -9,7 +9,7 @@ IF EXIST zlib GOTO CONT1
 
 cd zlib
 
-git checkout v1.2.11
+git checkout v1.2.13
 REM ===========================================================================
 REM           Update zlibstat.vxproj project file for DL needs
 REM ===========================================================================

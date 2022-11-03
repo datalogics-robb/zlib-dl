@@ -4,7 +4,7 @@ if test -d zlib; then
 else
     echo "Cloning Git repo for zlib"
     git clone git@github.com:madler/zlib.git
-    ( cd zlib && git checkout v1.2.11 )
+    ( cd zlib && git checkout v1.2.13 )
 fi
 UNAME=`uname`
 PREFIXDIR=${PREFIXDIR-"$(dirname ${0})/./"}
@@ -113,12 +113,12 @@ case $OS in
     intelsolaris)
         # configuration for sol - solaris10
         MAKE=make
-        COMP=/usr/bin/cc
+        COMP=/usr/bin/gcc
         DEBFLAGS="-g"
-        RELFLAGS="-fast"
+        RELFLAGS="-O3"
         CFLAGS64="-m64"
         CFLAGS32="-m32"
-        CFLAGSALL="-KPIC -xc99=all -xpentium"
+        CFLAGSALL="-fPIC -std=c99"
         OS="intelsolaris"
         OS64="${OS}_64"
     ;;
